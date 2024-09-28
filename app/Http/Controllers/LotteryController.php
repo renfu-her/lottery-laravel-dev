@@ -28,6 +28,15 @@ class LotteryController extends Controller
 
         $prize->decrement('remaining');
 
+        if ($winner && $prize) {
+            return response()->json([
+                'status' => 'success',
+                'winner' => $winner->name,
+                'prize' => $prize->name,
+                'prize_id' => $prize->id
+            ]);
+        }
+
         return response()->json([
             'status' => 'success',
             'winner' => $winner->name,

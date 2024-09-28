@@ -20,10 +20,10 @@
         </thead>
         <tbody>
             @foreach ($prizes as $prize)
-                <tr>
+                <tr id="prize-row-{{ $prize->id }}">
                     <td>{{ $prize->name }}</td>
                     <td>{{ $prize->quantity }}</td>
-                    <td>{{ $prize->remaining }}</td>
+                    <td class="remaining-quantity">{{ $prize->remaining }}</td>
                     <td>
                         <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
                             data-bs-target="#assignModal{{ $prize->id }}">
@@ -80,7 +80,7 @@
                 if (!isDrawing) {
                     isDrawing = true;
                     $(this).text('停止抽獎').removeClass('btn-success').addClass('btn-danger');
-                    drawInterval = setInterval(drawPrize, 3000); // 每秒抽一次獎
+                    drawInterval = setInterval(drawPrize, 3000); // 每3秒抽一次獎
                 } else {
                     stopDrawing();
                 }
@@ -97,11 +97,34 @@
                     if (data.status === 'success') {
                         showWinnerIcon(data.winner, data.prize);
                         $('#drawResult').removeClass('d-none').text(`恭喜 ${data.winner} 贏得了 ${data.prize}!`);
+                        if (data.prize_id) { // 添加這個檢查
+                            updateRemainingQuantity(data.prize_id);
+                        } else {
+                            console.error('抽獎成功，但未收到 prize_id');
+                        }
                     } else if (data.status === 'finished') {
                         $('#drawResult').removeClass('d-none').text('抽獎已結束，沒有更多可用的獎品或用戶。');
                         stopDrawing();
                     }
                 });
+            }
+
+            function updateRemainingQuantity(prizeId) {
+                if (!prizeId) {
+                    console.error('無效的 prizeId:', prizeId);
+                    return;
+                }
+                $.get(`{{ url('api/prizes') }}/${prizeId}/remaining`)
+                    .done(function(data) {
+                        if (data.success) {
+                            $(`#prize-row-${prizeId} .remaining-quantity`).text(data.remaining);
+                        } else {
+                            console.error('無法更新剩餘數量:', data.message);
+                        }
+                    })
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                        console.error('獲取剩餘數量時發生錯誤:', textStatus, errorThrown);
+                    });
             }
 
             function showWinnerIcon(winner, prize) {
