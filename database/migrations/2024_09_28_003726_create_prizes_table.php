@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('prizes', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->integer('quantity');
+            $table->integer('remaining');
             $table->timestamps();
         });
     }
