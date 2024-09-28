@@ -12,23 +12,27 @@ class LotteryController extends Controller
     public function draw()
     {
         $prizes = Prize::where('remaining', '>', 0)->get();
-        $users = User::all();
+        $users = User::whereDoesntHave('winners')->get();
 
         if ($prizes->isEmpty() || $users->isEmpty()) {
-            return redirect()->route('prizes.index')->with('error', '没有可用的奖品或用户');
+            return response()->json(['status' => 'finished']);
         }
 
         $prize = $prizes->random();
-        $user = $users->random();
+        $winner = $users->random();
 
         Winner::create([
-            'user_id' => $user->id,
+            'user_id' => $winner->id,
             'prize_id' => $prize->id,
         ]);
 
         $prize->decrement('remaining');
 
-        return redirect()->route('prizes.index')->with('success', "{$user->name} 赢得了 {$prize->name}");
+        return response()->json([
+            'status' => 'success',
+            'winner' => $winner->name,
+            'prize' => $prize->name
+        ]);
     }
 
     public function assign(Request $request)
@@ -44,14 +48,21 @@ class LotteryController extends Controller
             return redirect()->route('prizes.index')->with('error', '该奖品已无剩余');
         }
 
+        $user = User::findOrFail($validated['user_id']);
+
         Winner::create([
-            'user_id' => $validated['user_id'],
-            'prize_id' => $validated['prize_id'],
+            'user_id' => $user->id,
+            'prize_id' => $prize->id,
         ]);
 
         $prize->decrement('remaining');
 
-        $user = User::findOrFail($validated['user_id']);
         return redirect()->route('prizes.index')->with('success', "已将 {$prize->name} 分配给 {$user->name}");
+    }
+
+    public function winners()
+    {
+        $winners = Winner::with(['user', 'prize'])->latest()->get();
+        return view('lottery.winners', compact('winners'));
     }
 }
