@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>抽奖系统 - @yield('title', '首页')</title>
+    <title>抽獎系統 - @yield('title', '首頁')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -30,7 +30,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('prizes.index') }}">抽奖系统</a>
+            <a class="navbar-brand" href="{{ route('prizes.index') }}">抽獎系統</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -39,15 +39,15 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('prizes.index') ? 'active' : '' }}"
-                            href="{{ route('prizes.index') }}">奖品列表</a>
+                            href="{{ route('prizes.index') }}">獎品列表</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('prizes.create') ? 'active' : '' }}"
-                            href="{{ route('prizes.create') }}">添加奖品</a>
+                            href="{{ route('prizes.create') }}">添加獎品</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('lottery.winners') ? 'active' : '' }}"
-                            href="{{ route('lottery.winners') }}">获奖记录</a>
+                            href="{{ route('lottery.winners') }}">獲獎記錄</a>
                     </li>
                 </ul>
             </div>
@@ -74,7 +74,7 @@
 
     <footer class="mt-5 py-3 bg-dark">
         <div class="container text-center">
-            <span class="text-muted">&copy; {{ date('Y') }} 抽奖系统. 保留所有权利。</span>
+            <span class="text-muted">&copy; {{ date('Y') }} 抽獎系統. 保留所有權利。</span>
         </div>
     </footer>
 

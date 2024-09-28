@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
-@section('title', '获奖记录')
+@section('title', '獲獎記錄')
 
 @section('content')
     <div class="container">
-        <h1 class="mb-4">获奖记录</h1>
+        <h1 class="mb-4">獲獎記錄</h1>
 
         <table class="table table-dark table-striped">
             <thead>
                 <tr>
-                    <th>获奖者</th>
-                    <th>奖品</th>
-                    <th>获奖时间</th>
+                    <th>獲獎者</th>
+                    <th>獎品</th>
+                    <th>獲獎時間</th>
                 </tr>
             </thead>
             <tbody>

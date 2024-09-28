@@ -1,37 +1,37 @@
 @extends('layouts.app')
 
-@section('title', '抽奖结果')
+@section('title', '抽獎結果')
 
 @section('content')
     <div class="container">
-        <h1 class="mb-4">抽奖结果</h1>
+        <h1 class="mb-4">抽獎結果</h1>
 
         @if (isset($winner) && isset($prize))
             <div class="alert alert-success" role="alert">
-                恭喜 <strong>{{ $winner->name }}</strong> 赢得了 <strong>{{ $prize->name }}</strong>!
+                恭喜 <strong>{{ $winner->name }}</strong> 贏得了 <strong>{{ $prize->name }}</strong>!
             </div>
             <div class="card bg-dark text-white mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">获奖详情</h5>
-                    <p class="card-text">获奖者: {{ $winner->name }}</p>
-                    <p class="card-text">奖品: {{ $prize->name }}</p>
-                    <p class="card-text">抽奖时间: {{ now()->format('Y-m-d H:i:s') }}</p>
+                    <h5 class="card-title">獲獎詳情</h5>
+                    <p class="card-text">獲獎者: {{ $winner->name }}</p>
+                    <p class="card-text">獎品: {{ $prize->name }}</p>
+                    <p class="card-text">抽獎時間: {{ now()->format('Y-m-d H:i:s') }}</p>
                 </div>
             </div>
         @else
             <div class="alert alert-warning" role="alert">
-                抽奖未成功。可能是没有可用的奖品或用户。
+                抽獎未成功。可能是沒有可用的獎品或用戶。
             </div>
         @endif
 
-        <a href="{{ route('prizes.index') }}" class="btn btn-primary">返回奖品列表</a>
-        <a href="{{ route('lottery.winners') }}" class="btn btn-info ms-2">查看所有获奖记录</a>
+        <a href="{{ route('prizes.index') }}" class="btn btn-primary">返回獎品列表</a>
+        <a href="{{ route('lottery.winners') }}" class="btn btn-info ms-2">查看所有獲獎記錄</a>
     </div>
 
     @if (isset($winner) && isset($prize))
         @push('scripts')
             <script>
-                // 简单的礼花效果
+                // 簡單的禮花效果
                 function createConfetti() {
                     const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
                     for (let i = 0; i < 100; i++) {
